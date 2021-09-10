@@ -53,10 +53,10 @@ function Home() {
             onChange={(e) => setHoursPerProject(e.target.value)}
           ></input>
         </form>
-        {/* <div>
+        <div>
           <h1>Seu custo por hora é de: {handleCostPerHour()}</h1>
           <h1>O custo do projeto atual é de: {handleBudget()}</h1>
-        </div> */}
+        </div>
         <div className="user-id">
           <h3>Gostaria de salvar seus resultados? <br /></h3>
           <a href="/SignIn">Entre com sua conta </a> <p>ou</p>
