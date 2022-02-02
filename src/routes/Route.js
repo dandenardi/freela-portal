@@ -1,5 +1,6 @@
-import React from 'react';
+import { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { AuthContext } from '../contexts/auth';
 
 export default function RouteWrapper({
   component: Component,
@@ -7,8 +8,7 @@ export default function RouteWrapper({
   ...rest
 }) {
 
-  const loading = false;
-  const signed = false;
+  const { signed, loading } = useContext(AuthContext);
 
   if (loading) {
     return (
@@ -21,10 +21,10 @@ export default function RouteWrapper({
     //redirecionamento para pagina principal, caso nao esteja logado e tente acessar pagina privada
   }
 
-  /*   if (signed && !isPrivate) {
-      return <Redirect to="/dashboard" />
-      redireciona para dashboard caso usuario logado tente acesso para pagina publica (vamos ver se vai existir mais paginas publicas, alem da principal)
-    } */
+    if (signed && !isPrivate) {
+      return <Redirect to="/Database" />
+      //redireciona para dashboard caso usuario logado tente acesso para pagina publica (vamos ver se vai existir mais paginas publicas, alem da principal)
+    }
 
 
   return (
