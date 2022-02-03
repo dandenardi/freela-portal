@@ -67,8 +67,39 @@ function AuthProvider({ children }){
     localStorage.setItem('SistemUser', JSON.stringify(data));
   }
 
+  async function signIn(email, password){
+    //funcao que autentica o usuario
+    setLoadingAuth(true);
+
+    await firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(async (value) => {
+      let uid = value.user.uid;
+
+      const userProfile = await firebase.firestore().collection('users')
+      .doc(uid).get();
+
+      let data = {
+        uid: uid,
+        name: userProfile.data().name,
+        avatarUrl: userProfile.data().avatarUrl,
+        email: value.user.email,
+      };
+
+      setUser(data);
+      storageUser(data);
+      setLoadingAuth(false);
+
+    })
+    .catch((error)=>{
+      alert('Houve um problema para entrar no sistema. Tem certeza que este é o usuário e a senha?');
+      console.log(error);
+      setLoadingAuth(false);
+    })
+    
+  }
 
   async function signOut(){
+    //funcao que remove o usuario do sistema
     await firebase.auth().signOut();
     localStorage.removeItem('SistemUser');
     setUser(null);
@@ -82,7 +113,9 @@ function AuthProvider({ children }){
       user, 
       loading, 
       signUp,
-      signOut
+      signIn,
+      signOut,
+      loadingAuth
     }}
     >
       {children}

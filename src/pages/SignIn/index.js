@@ -1,75 +1,54 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 
-import { useForm } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
+
+import { AuthContext } from '../../contexts/auth';
 
 import '../SignUp/signup.css';
 
 
+
+
 function SignIn() {
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = (data) => handleLogin(data);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  function handleLogin(data){
-    //checa os dados e, caso validos, encaminha para login no banco de dados
-    let login = data.email;
-    let password = data.password;
-    console.log(login, password);
+  const { signIn, loadingAuth } = useContext(AuthContext);
+
+  function handleSubmit(e){
+    e.preventDefault();
     
-
-
+    if(email !== '' && password !== ''){
+      signIn(email, password);
+    }
   }
-
-
+  
   return(
     <div className='App'>
       <div className='App-header'>
-        
-        
-          <h1>Entre em sua conta!</h1>
-
-          <form onSubmit={ handleSubmit(onSubmit) }>
+        <h1>Entre em sua conta!</h1>
+       
+        <form onSubmit={handleSubmit}>
+          <div className='input'>
             
-            <div className='input'>
-              <label htmlFor="email">Email</label>
-                <input
-                  placeholder="bluebill1049@hotmail.com"
-                  type="email"
-                  {...register("email", { required: "Este campo precisa ser preenchido" })}
-                />
-                <ErrorMessage 
-                errors = { errors } 
-                name="email" 
-                render = {( { message }) => <p className='error'>Corrija os erros a seguir: { message } </p>}
-                />
+            <label htmlFor="email">Email</label>
+            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
 
-              <label htmlFor="password">Password</label>
-                <input
-                  placeholder="password"
-                  type="password"
-                  {...register("password", { required: "Este campo precisa ser preenchido" })}
-                />
-                <ErrorMessage 
-                errors = { errors } 
-                name="password" 
-                render = {( { message }) => <p className='error'>Corrija os erros a seguir: { message } </p>}
-                />
+            <label htmlFor="password">Password</label>
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
-              <input type="submit" value='Entrar'/>
-            </div>  
-          </form>
-          
-          
+            <button type='submit'> {loadingAuth ? 'Carregando...' : 'Acessar'}</button>
+
+              
+          </div>  
+        </form>
         
-
-        <p>Não tem conta? <a href="/SignUp">Cadastre-se </a></p>
+        <p>Ainda não tem conta? <a href="/SignIn">Cadastre-se!</a></p>
 
       </div>
       
 
     </div>
-    
   )
 
 }

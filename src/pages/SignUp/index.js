@@ -10,7 +10,7 @@ function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { signUp } = useContext(AuthContext);
+  const { signUp, loadingAuth } = useContext(AuthContext);
 
   function handleSubmit(e){
     e.preventDefault();
@@ -39,7 +39,7 @@ function SignUp() {
             <label htmlFor="password">Password</label>
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
-            <input type="submit" value='Cadastrar'/>
+            <button type='submit'> {loadingAuth ? 'Carregando...' : 'Cadastrar'}</button>
               
           </div>  
         </form>

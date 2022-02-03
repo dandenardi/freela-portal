@@ -22,7 +22,7 @@ export default function RouteWrapper({
   }
 
     if (signed && !isPrivate) {
-      return <Redirect to="/Database" />
+      return <Redirect to="/Dashboard" />
       //redireciona para dashboard caso usuario logado tente acesso para pagina publica (vamos ver se vai existir mais paginas publicas, alem da principal)
     }
 
